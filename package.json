@@ -1,0 +1,10 @@
+{
+  "name": "performance-test",
+  "dependencies": {
+    "asynciterator": "^1.1.0",
+    "follow-redirects": "^1.4.1",
+    "isomorphic-fetch": "^2.2.1",
+    "lodash": "^4.17.4",
+    "parse-link-header": "^1.0.1"
+  }
+}
