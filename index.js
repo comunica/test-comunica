@@ -2,6 +2,11 @@
 const fs = require('fs');
 const http = require('http');
 
+let queryPath = 'sparql/bradpitt.sparql';
+// let queryPath = 'sparql/select10000.sparql';
+
+let query = fs.readFileSync(queryPath, 'utf8');
+
 const options = {
   hostname: 'localhost',
   port: 3000,
@@ -24,6 +29,5 @@ const req = http.request(options, res => {
   });
 });
 
-req.write('query=' + fs.readFileSync('sparql/bradpitt.sparql', 'utf8'));
-//req.write('query=' + fs.readFileSync('sparql/select10000.sparql', 'utf8'));
+req.write('query=' + query);
 req.end();
