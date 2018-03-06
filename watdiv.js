@@ -25,12 +25,14 @@ for (let filename of filenames) {
   names.push(name);
 }
 
+let loops = 4;
+console.log(`name;id;results;time`);
 callRecursive(0, 0);
 
 function callRecursive(nameId, id) {
   let name = names[nameId];
-  console.log(name + ' ' + id);
-  call(watdiv[name][id], () => {
+  call(watdiv[name][id], (results, time) => {
+    console.log(`${name};${id};${results};${time}`);
     ++id;
     if (id >= watdiv[name].length) {
       id = 0;
@@ -38,6 +40,8 @@ function callRecursive(nameId, id) {
     }
     if (nameId < names.length) {
       callRecursive(nameId, id);
+    } else if (--loops > 0) {
+      callRecursive(0, 0);
     }
   });
 }
@@ -46,11 +50,9 @@ function call(query, done) {
   let hrstart = process.hrtime();
   let count = -2; // ignore header lines
   const req = http.request(options, res => {
-    res.on('data', data => { console.log(data.toString()); count += data.toString().split('\n').filter(x => x.trim().length > 0).length; });
+    res.on('data', data => { /*console.log(data.toString());*/ count += data.toString().split('\n').filter(x => x.trim().length > 0).length; });
     res.on('end', () => {
-      console.log(count + ' results');
-      console.log(Math.floor(stop(hrstart)) + 'ms');
-      done();
+      done(count, Math.floor(stop(hrstart)));
     });
   });
 
